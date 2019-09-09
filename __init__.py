@@ -39,5 +39,16 @@ def create_app(test_config=None):
             return render_template('tickets_show.html', ticket=ticket)
         except exc.NoResultFound:
             abort(404)
+    @app.route('/api/tickets')
+    def api_tickets():
+        tickets = Ticket.query.all()
+        return jsonify(tickets)
 
+    @app.route('/api/tickets/<int:ticket_id>')
+    def api_tickets_show(ticket_id):
+        try:
+            ticket = Ticket.query.filter_by(id=ticket_id).one()
+            return jsonify(ticket)
+        except exc.NoResultFound:
+            return jsonify({'error': 'Ticket not found'}), 404
     return app
