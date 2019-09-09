@@ -17,20 +17,20 @@ def create_app(test_config=None):
     db.init_app(app)
 
     from sqlalchemy.orm import exc
-    
+
     @app.errorhandler(404)
     def page_not_found(e):
-	return render_template('404.html'), 404
+	    return render_template('404.html'), 404
 
 
     @app.route('/')
     def index():
-	return redirect(url_for('tickets'))
+	    return redirect(url_for('tickets'))
 
     @app.route('/tickets')
     def tickets():
-	tickets = Ticket.query.all()
-	return render_template('tickets_index.html', tickets=tickets)
+	    tickets = Ticket.query.all()
+	    return render_template('tickets_index.html', tickets=tickets)
 
     @app.route('/tickets/<int:ticket_id>')
     def tickets_show(ticket_id):
